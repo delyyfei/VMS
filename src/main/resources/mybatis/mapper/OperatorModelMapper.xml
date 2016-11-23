@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.sunniwell.vms.mapper.OperatorModelMapper">
+    <resultMap id="baseResultMap" type="net.sunniwell.vms.model.OperatorModel">
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="login_utc" jdbcType="BIGINT" property="loginUTC"/>
+    </resultMap>
+    <sql id="all_column">
+        id, `name`, `password`, login_utc
+    </sql>
+    <insert id="insert" parameterType="net.sunniwell.vms.model.OperatorModel">
+        insert into operator (id,name,`password`)
+        values (#{id}, #{name}, #{password})
+    </insert>
+    <update id="changePassword">
+        update operator set `password`=#{password} where id=#{id}
+    </update>
+    <select id="selectByIdAndPwd" resultMap="baseResultMap">
+        select
+        <include refid="all_column"/>
+        from operator
+        where id=#{id} and `password`=#{password}
+    </select>
+    <select id="selectAll" resultMap="baseResultMap">
+        select
+        <include refid="all_column"/>
+        from operator
+    </select>
+</mapper>
